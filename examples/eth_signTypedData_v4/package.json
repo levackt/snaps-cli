@@ -1,0 +1,29 @@
+{
+  "name": "eth_signTypedData_v4_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eth-json-rpc-errors": "^1.1.1",
+    "npm": "^6.13.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MetaMask/snaps-cli.git"
+  },
+  "web3Wallet": {
+    "bundle": {
+      "local": "dist/bundle.js",
+      "url": "http://localhost:8084/dist/bundle.js"
+    },
+    "initialPermissions": {
+      "confirm": {}
+    },
+    "requiredPermissions": []
+  }
+}

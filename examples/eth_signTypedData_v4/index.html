@@ -1,0 +1,81 @@
+<!doctype html>
+
+<html>
+
+  </head>
+    <title>eth_signTypedData_v4</title>
+  </head>
+
+  <body>
+    <h1>eth_signTypedData_v4</h1>
+    <details>
+      <summary>Instructions</summary>
+      <ul>
+        <li>First, click "Connect". Then, try out the other buttons!</li>
+        <li>Please note that:</li>
+        <ul>
+          <li>
+            The Snap <b>package.json</b> must be located in located in the server root directory
+          </li>
+          <li>
+            The Snap bundle must be hosted at the location specified by <b>package.json:web3Wallet:bundle:url</b>
+          </li>
+        </ul>
+      </ul>
+    </details>
+    <br/>
+
+    <button class="connect">Connect</button>
+    <br>
+
+    <input class="amount" value="10000000000000000" />
+    <input class="encRecipient" value="067db8c6cf69218ecaf1f6c08d94448841cbe98901fafbe2198bedff0bcf7797e6d26ba2ba8b9401ac950e4cc880e6fb" />
+    <input class="pubKey" value="493be007e4d7e01a241e548b3bba067afcb492298e56f9feacf99832e5472135f7caaabe9e20824788c1bf91758425ec94cbcf3e2caad9dc0009c09cdf08cd84" />
+    <input class="sender" value="0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1" />
+    
+    <button class="sign">Sign Message</button>
+  </body>
+
+  <script>
+
+    const snapId = new URL('package.json', window.location.href).toString()
+
+    const connectButton = document.querySelector('button.connect')
+    const signButton = document.querySelector('button.sign')
+
+    connectButton.addEventListener('click', connect)
+    signButton.addEventListener('click', signMessage)
+
+    async function connect () {
+      await ethereum.send({
+        method: 'wallet_enable',
+        params: [{
+          wallet_plugin: { [snapId]: {} },
+        }]
+      })
+    }
+
+    async function signMessage () {
+      try {
+        const amount = document.querySelector('.amount').value
+        const encRecipient = document.querySelector('.encRecipient').value
+        const pubKey = document.querySelector('.pubKey').value
+        const sender = document.querySelector('.sender').value
+        const response = await ethereum.send({
+          method: 'wallet_invokePlugin',
+          params: [snapId, {
+            method: 'signTypedDataV4Message',
+            params: [amount, encRecipient, pubKey, sender]
+          }]
+        })
+
+        alert('received back: ' + JSON.stringify(response))
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+  </script>
+
+</html>
